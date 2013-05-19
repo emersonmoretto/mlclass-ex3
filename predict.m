@@ -24,17 +24,11 @@ p = zeros(size(X, 1), 1);
 % add bias
 X = [ones(m, 1) X];
 
-for j=1:m,
-
-	%first layer propagation
-	z2 = sigmoid(X(j,:) * Theta1');
-
-	%bias to hidden layer
-	z2 = [1 z2];
-	
-	%hidden layer propagation and getting max (candidate)
-	[trash,p(j)] = max(sigmoid(z2 * Theta2'));
-end;
+%better matrix operation
+A1 = [ones(1, m); X'];
+A2 = [ones(1, m); sigmoid(Theta1*A1)];
+A3 = sigmoid(Theta2*A2);
+[value, p] = max(A3', [], 2);
 
 % =========================================================================
 
